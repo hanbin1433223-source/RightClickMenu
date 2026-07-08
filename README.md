@@ -1,49 +1,49 @@
 # 即建
 
-即建是一款 macOS Finder 右键增强工具，用来解决 Mac 新建文本、Markdown、Word、Excel、PPT 文件不方便的问题。
+> 在 Finder 右键，即刻新建文件。
 
-第一版目标是源码开源发布。你可以下载本项目，用 Xcode 构建后在自己的 Mac 上使用。
+即建是一款 macOS 菜单栏工具，解决 Mac 无法在访达中直接新建文本文档、Markdown、Word、Excel、PPT 文件的痛点。点击菜单栏图标或按快捷键，即可在当前访达窗口位置创建文件。
 
-## 功能
+## 使用方式
 
-- 在 Finder 右键菜单中显示“即建”。
-- 支持新建 `txt`、`md`、`rtf`、`docx`、`xlsx`、`pptx`。
-- 自动命名文件，不覆盖已有文件。
-- 在 App 中开关不同文件类型。
-- 中文优先，面向普通 Mac 用户。
+| 方式 | 操作 |
+|------|------|
+| 🖱 菜单栏 | 点击菜单栏 `📄` 图标 → 选择文件类型 |
+| ⌨️ 快捷键 | 按 `⌥⌘N` → 弹出窗口选择类型 |
+
+文件自动创建在当前最前面的访达窗口目录，如果未打开访达则创建到桌面。重名自动追加编号（如 `新建文本文档 2.txt`）。
 
 ## 系统要求
 
-- macOS 14.0 或更高版本
-- Xcode 16 或更高版本
+- macOS 14.0+
 
-## 使用步骤
+## 技术架构
 
-1. 用 Xcode 打开 `RightClickMenu.xcodeproj`。
-2. 选择 `RightClickMenu` target 构建并运行。
-3. 在 Xcode 的 Signing & Capabilities 中为主 App 和 Extension 添加 App Groups：`group.com.rightclickmenu`。
-4. 打开系统设置。
-5. 进入“隐私与安全性”或“扩展”相关设置。
-6. 找到 Finder 扩展，启用“即建 Finder 扩展”。
-7. 打开 Finder，在桌面、文稿或下载目录右键，选择“即建”。
+```
+Sources/
+├── RightClickMenuApp/   主 App (SwiftUI MenuBarExtra)
+│   ├── App.swift         入口 + 快捷键处理
+│   └── ContentView.swift 设置/使用说明窗口
+└── rclick/               CLI 工具，负责创建文件
+    └── main.swift        接收 create <扩展名> 参数
+```
 
-## 常见问题
+- **即建.app** — 主程序，MenuBarExtra 常驻菜单栏，按 `⌥⌘N` 弹出文件类型选择器
+- **rclick** — 内嵌 CLI 工具，被主 App 调用，通过 AppleScript 获取当前 Finder 路径，创建文件并高亮显示
 
-### 右键菜单没有出现
+## 构建
 
-先确认 Finder 扩展已经在系统设置中启用。如果刚启用后还看不到，可以重启 Finder 或重新运行 App。
+```bash
+git clone <repo-url>
+cd RightClickMenu
+sh build_app.sh
+```
 
-### 构建时报 App Groups 错误
+构建产物自动安装到 `/Applications/即建.app`。
 
-需要在 Xcode 里手动给主 App 和 FinderSync Extension 添加同一个 App Groups：`group.com.rightclickmenu`。
+## 已知限制
 
-### 下载后能不能直接双击使用
-
-第一版是源码发布，不提供签名公证安装包。普通用户需要用 Xcode 构建运行。
-
-## 设计预览
-
-视觉风格预览保存在 `docs/design/jijian-style-preview.html`。
+macOS 27 beta 移除了访达的「服务」菜单，且免费 Apple ID 无法注册 FinderSync 扩展，因此暂无右键菜单方式。菜单栏 + 快捷键是当前最稳定的方案。
 
 ## 开源协议
 
