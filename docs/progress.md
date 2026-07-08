@@ -18,6 +18,7 @@ GitHub 仓库：<https://github.com/hanbin1433223-source/RightClickMenu>
 - 右键菜单：Finder 中显示“即建”二级菜单
 - 第一版文件类型：`txt`、`md`、`rtf`、`docx`、`xlsx`、`pptx`
 - 命名方式：自动命名，重名自动追加编号
+- 技术策略：v1 稳定兼容优先，不强依赖 macOS beta 或 Liquid Glass；v1.1 再做新系统视觉增强
 
 ## 已完成工作
 
@@ -60,8 +61,9 @@ GitHub 仓库：<https://github.com/hanbin1433223-source/RightClickMenu>
 4. 在 Finder 中手动验证“即建”右键菜单和六种文件创建。
 5. 补正式 App 图标资源。
 6. 根据手动验证结果修复 FinderSync 和文件创建细节。
+7. v1.1 再评估 Liquid Glass、Glass Button、Background Extension Effect 等新 SwiftUI 视觉能力，并通过系统版本判断做渐进增强。
 
 ## 最近一次记录
 
 - 日期：2026-07-08
-- 状态：v1 第一轮工程骨架完成，已构建通过并推送 GitHub。
+- 状态：v1 第一轮工程骨架完成，已构建通过并推送 GitHub。已确认 v1 稳定兼容优先，v1.1 再适配最新系统视觉能力。

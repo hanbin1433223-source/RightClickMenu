@@ -21,6 +21,14 @@
 - UI 基调：像 macOS 原生工具，清爽可信，不做花哨营销风
 - 视觉预览：`docs/design/jijian-style-preview.html`
 
+## 系统设计策略
+
+- v1 采用稳定兼容路线，目标保持 macOS 14.0+。
+- v1 不强依赖 macOS beta 或最新系统专属 API。
+- v1 不直接使用 Liquid Glass 作为必需视觉能力，避免 GitHub 用户因为系统版本不同无法构建或运行。
+- v1.1 可以增加新系统视觉适配层，在支持的系统上使用 Liquid Glass、Glass Button、Background Extension Effect 等新 SwiftUI 能力。
+- 所有新系统视觉增强必须通过 `if #available(...)` 做版本判断，旧系统继续使用 v1 的原生清爽样式。
+
 ## 第一版范围
 
 第一版必须完成：
