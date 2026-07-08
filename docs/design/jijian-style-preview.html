@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>即建 UI 风格预览</title>
+  <style>
+    :root {
+      --bg: #eef4f2;
+      --panel: rgba(255, 255, 255, 0.76);
+      --panel-strong: rgba(255, 255, 255, 0.92);
+      --text: #17211f;
+      --muted: #63716e;
+      --line: rgba(67, 92, 86, 0.16);
+      --cyan: #18a8a6;
+      --blue: #3a7df0;
+      --green: #4cc78a;
+      --shadow: 0 24px 70px rgba(37, 64, 58, 0.16);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: ui-rounded, "SF Pro Rounded", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      background:
+        radial-gradient(circle at 16% 10%, rgba(76, 199, 138, 0.34), transparent 28%),
+        radial-gradient(circle at 78% 14%, rgba(58, 125, 240, 0.24), transparent 30%),
+        linear-gradient(135deg, #f8fbfa 0%, var(--bg) 58%, #e1eeeb 100%);
+      padding: 42px;
+    }
+
+    .board {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+    }
+
+    .brand-card {
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 500px;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: #12615f;
+      background: rgba(24, 168, 166, 0.12);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .icon-wrap {
+      width: 164px;
+      height: 164px;
+      margin: 38px 0 30px;
+      border-radius: 38px;
+      background: linear-gradient(145deg, #f9fffe 0%, #dff5ef 46%, #a8d9ff 100%);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 28px 50px rgba(42, 115, 150, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .icon-wrap::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.38);
+      top: -38px;
+      right: -30px;
+    }
+
+    .doc-icon {
+      width: 82px;
+      height: 104px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #effaf7);
+      box-shadow: 0 12px 28px rgba(33, 82, 80, 0.18);
+      position: relative;
+      border: 1px solid rgba(48, 99, 96, 0.12);
+    }
+
+    .doc-icon::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-top: 24px solid #ccebe6;
+      border-left: 24px solid transparent;
+      border-radius: 0 18px 0 6px;
+    }
+
+    .plus {
+      position: absolute;
+      right: 31px;
+      bottom: 28px;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 36px;
+      font-weight: 800;
+      box-shadow: 0 14px 26px rgba(22, 113, 194, 0.32);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 64px;
+      letter-spacing: -3px;
+      line-height: 0.96;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .tone-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .tone-list span {
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid var(--line);
+      color: #31413e;
+      font-weight: 700;
+    }
+
+    .window {
+      padding: 16px;
+      min-height: 500px;
+    }
+
+    .toolbar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .red { background: #ff5f57; }
+    .yellow { background: #febc2e; }
+    .green { background: #28c840; }
+
+    .app-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      min-height: 420px;
+    }
+
+    .sidebar {
+      background: rgba(246, 250, 249, 0.72);
+      border-radius: 22px;
+      padding: 18px;
+      border: 1px solid var(--line);
+    }
+
+    .side-title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+
+    .nav-item {
+      padding: 12px 13px;
+      border-radius: 14px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .nav-item.active {
+      color: #0c5c5b;
+      background: rgba(24, 168, 166, 0.13);
+    }
+
+    .content {
+      background: var(--panel-strong);
+      border-radius: 22px;
+      padding: 24px;
+      border: 1px solid var(--line);
+    }
+
+    .content h2 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: -1px;
+    }
+
+    .content p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .step {
+      border-radius: 18px;
+      background: #f6fbfa;
+      padding: 16px;
+      border: 1px solid var(--line);
+    }
+
+    .num {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: #dff5ef;
+      color: #0e6764;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .file-type {
+      padding: 14px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 900;
+    }
+
+    .switch {
+      width: 40px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      position: relative;
+    }
+
+    .switch::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+
+    .bottom {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    .menu-card, .palette {
+      padding: 26px;
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 24px;
+      letter-spacing: -0.8px;
+    }
+
+    .finder-menu {
+      width: 300px;
+      border-radius: 16px;
+      padding: 8px;
+      background: rgba(248, 248, 248, 0.92);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    }
+
+    .menu-row {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .menu-row.active {
+      background: #147efb;
+      color: white;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .swatch {
+      height: 76px;
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .caption {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 650;
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section class="hero">
+      <div class="card brand-card">
+        <div>
+          <div class="badge">macOS Finder 右键增强工具</div>
+          <div class="icon-wrap" aria-label="即建图标方向">
+            <div class="doc-icon"></div>
+            <div class="plus">+</div>
+          </div>
+          <h1>即建</h1>
+          <p class="subtitle">在 Finder 右键，即刻新建文档。轻巧、清楚、像系统工具一样可靠。</p>
+        </div>
+        <div class="tone-list">
+          <span>原生感</span>
+          <span>轻量</span>
+          <span>可靠</span>
+          <span>中文友好</span>
+        </div>
+      </div>
+
+      <div class="card window">
+        <div class="toolbar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span style="margin-left: 10px;">即建</span>
+        </div>
+        <div class="app-body">
+          <aside class="sidebar">
+            <div class="side-title">即建</div>
+            <div class="nav-item active">开始使用</div>
+            <div class="nav-item">文件类型</div>
+            <div class="nav-item">帮助</div>
+          </aside>
+          <section class="content">
+            <h2>右键，新建文件</h2>
+            <p>启用 Finder 扩展后，你可以在桌面、文稿、下载等常用目录直接创建文本、Markdown、Word、Excel 和 PPT 文件。</p>
+            <div class="steps">
+              <div class="step"><div class="num">1</div><strong>打开系统设置</strong><p>进入扩展设置</p></div>
+              <div class="step"><div class="num">2</div><strong>启用即建</strong><p>勾选 Finder 扩展</p></div>
+              <div class="step"><div class="num">3</div><strong>右键创建</strong><p>选择需要的文件</p></div>
+            </div>
+            <div class="file-grid">
+              <div class="file-type">TXT <span class="switch"></span></div>
+              <div class="file-type">MD <span class="switch"></span></div>
+              <div class="file-type">RTF <span class="switch"></span></div>
+              <div class="file-type">DOCX <span class="switch"></span></div>
+              <div class="file-type">XLSX <span class="switch"></span></div>
+              <div class="file-type">PPTX <span class="switch"></span></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom">
+      <div class="card menu-card">
+        <h3 class="section-title">Finder 右键菜单效果</h3>
+        <div class="finder-menu">
+          <div class="menu-row">新建文件夹</div>
+          <div class="menu-row active">即建 <span>›</span></div>
+          <div class="menu-row">显示简介</div>
+          <div class="menu-row">快速操作</div>
+        </div>
+        <p class="caption">右键里只放一个“即建”入口，文件类型放到二级菜单，保持 Finder 菜单干净。</p>
+      </div>
+      <div class="card palette">
+        <h3 class="section-title">颜色方向</h3>
+        <div class="swatches">
+          <div class="swatch" style="background:#f8fbfa"></div>
+          <div class="swatch" style="background:#18a8a6"></div>
+          <div class="swatch" style="background:#3a7df0"></div>
+          <div class="swatch" style="background:#4cc78a"></div>
+        </div>
+        <p class="caption">浅灰白底 + 青蓝强调色。目标是“像 macOS 原生工具”，不是花哨营销页。</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
