@@ -50,7 +50,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let win = NSWindow(contentViewController: vc)
         win.title = "即建"
         win.styleMask = [.titled, .closable, .miniaturizable, .fullSizeContentView]
-        win.setContentSize(NSSize(width: 540, height: 500))
+        win.setContentSize(NSSize(width: 480, height: 520))
+        win.minSize = NSSize(width: 460, height: 400)
         win.center()
         win.delegate = self
         settingsWindow = win
