@@ -59,23 +59,25 @@ struct OnboardingView: View {
                 .font(.callout)
                 .foregroundStyle(.tertiary)
 
-            HStack(spacing: 12) {
+            HStack(spacing: 14) {
                 ForEach(["indigo", "blue", "purple", "orange", "green", "red"], id: \.self) { colorName in
                     let color = colorForName(colorName)
+                    let isSelected = settings.settings.accentColor == colorName
                     Circle()
                         .fill(color)
-                        .frame(width: 24, height: 24)
+                        .frame(width: 26, height: 26)
+                        .shadow(color: isSelected ? color.opacity(0.4) : .clear, radius: 4, x: 0, y: 2)
                         .overlay(
                             Circle()
-                                .stroke(.white, lineWidth: 2)
-                                .opacity(settings.settings.accentColor == colorName ? 1 : 0)
+                                .stroke(.white, lineWidth: 2.5)
+                                .opacity(isSelected ? 1 : 0)
                         )
                         .onTapGesture {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 settings.setAccentColor(colorName)
                             }
                         }
-                        .scaleEffect(settings.settings.accentColor == colorName ? 1.2 : 1.0)
+                        .scaleEffect(isSelected ? 1.15 : 1.0)
                         .animation(.spring(duration: 0.3), value: settings.settings.accentColor)
                 }
             }

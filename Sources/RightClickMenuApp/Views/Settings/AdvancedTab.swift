@@ -6,19 +6,14 @@ struct AdvancedTab: View {
     var body: some View {
         List {
             Section {
-                HStack {
-                    Text("快捷键")
-                    Spacer()
-                    HotKeyRecorder(
-                        config: Binding(
-                            get: { settings.settings.hotKeyConfig },
-                            set: { settings.settings.hotKeyConfig = $0 }
-                        ),
-                        onChange: { settings.setHotKey($0) }
-                    )
-                    .frame(width: 200)
-                }
-                .padding(.vertical, 2)
+                HotKeyRecorder(
+                    config: Binding(
+                        get: { settings.settings.hotKeyConfig },
+                        set: { settings.settings.hotKeyConfig = $0 }
+                    ),
+                    onChange: { settings.setHotKey($0) }
+                )
+                .frame(maxWidth: .infinity, alignment: .trailing)
             } header: {
                 Label("快捷键", systemImage: "keyboard")
             }
