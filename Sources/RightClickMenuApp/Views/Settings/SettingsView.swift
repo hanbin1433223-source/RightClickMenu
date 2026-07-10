@@ -28,7 +28,7 @@ struct SettingsView: View {
             }
             .listStyle(.sidebar)
             .tint(settings.currentAccentColor)
-            .navigationSplitViewColumnWidth(min: 160, ideal: 180, max: 220)
+            .navigationSplitViewColumnWidth(min: 220, ideal: 220, max: 260)
         } detail: {
             detailContent
                 .id(selectedTab)

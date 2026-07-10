@@ -10,15 +10,24 @@ struct FileTypesTab: View {
                 if !types.isEmpty {
                     Section {
                         ForEach(types) { type in
-                            Toggle(isOn: Binding(
-                                get: { settings.isEnabled(type.id) },
-                                set: { _ in settings.toggleType(type.id) }
-                            )) {
-                                Label(type.label, systemImage: type.symbol)
+                            HStack(spacing: 8) {
+                                Image(systemName: type.symbol)
+                                    .font(.system(size: 15))
+                                    .foregroundStyle(settings.currentAccentColor)
+                                    .frame(width: 18, alignment: .center)
+                                Text(type.label)
+                                    .font(.callout)
                                     .foregroundStyle(type.isInstalled ? .primary : .secondary)
+                                Spacer(minLength: 4)
+                                Toggle("", isOn: Binding(
+                                    get: { settings.isEnabled(type.id) },
+                                    set: { _ in settings.toggleType(type.id) }
+                                ))
+                                .toggleStyle(.switch)
+                                .controlSize(.small)
+                                .labelsHidden()
+                                .disabled(!type.isInstalled)
                             }
-                            .toggleStyle(.switch)
-                            .disabled(!type.isInstalled)
                         }
                     } header: {
                         Label(category.rawValue, systemImage: category.icon)

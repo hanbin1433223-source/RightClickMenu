@@ -19,20 +19,10 @@ struct TypeRow: View {
             }
         } label: {
             HStack(spacing: 10) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 7)
-                        .fill(
-                            LinearGradient(
-                                colors: [settings.currentAccentColor.opacity(0.15), settings.currentAccentColor.opacity(0.08)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 30, height: 30)
-                    Image(systemName: type.symbol)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(settings.currentAccentColor)
-                }
+                Image(systemName: type.symbol)
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(settings.currentAccentColor)
+                    .frame(width: 22, alignment: .center)
                 Text(type.label)
                     .font(.callout)
                     .foregroundStyle(!type.isInstalled ? .secondary : .primary)
@@ -68,14 +58,11 @@ struct TypeRow: View {
         }
         .buttonStyle(.plain)
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(hovering ? settings.currentAccentColor.opacity(0.08) : Color.clear)
+            RoundedRectangle(cornerRadius: 6)
+                .fill(hovering ? Color.gray.opacity(0.08) : Color.clear)
         )
-        .scaleEffect(hovering ? 0.99 : 1.0)
-        .animation(.easeInOut(duration: 0.15), value: hovering)
         .onHover { h in
             withAnimation(.easeInOut(duration: 0.15)) { hovering = h }
-            if h { NSCursor.pointingHand.push() } else { NSCursor.pop() }
         }
         .opacity(type.isInstalled ? 1 : 0.45)
     }
