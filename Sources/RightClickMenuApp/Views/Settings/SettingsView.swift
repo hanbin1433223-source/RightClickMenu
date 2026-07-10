@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @ObservedObject private var settings = SettingsManager.shared
     @State private var selectedTab: SettingsTab = .usage
 
     enum SettingsTab: String, CaseIterable, Hashable {
@@ -26,9 +27,12 @@ struct SettingsView: View {
                 }
             }
             .listStyle(.sidebar)
+            .tint(settings.currentAccentColor)
             .frame(minWidth: 160)
         } detail: {
             detailContent
+                .id(selectedTab)
+                .transition(.opacity)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     LinearGradient(
