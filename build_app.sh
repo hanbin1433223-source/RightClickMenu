@@ -39,9 +39,9 @@ cat > "$APP_BUNDLE/Contents/Info.plist" << 'PLIST'
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
+    <string>1.1</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>2</string>
     <key>LSMinimumSystemVersion</key>
     <string>14.0</string>
     <key>LSUIElement</key>
@@ -66,4 +66,4 @@ cp -R "$APP_BUNDLE" /Applications/
 
 echo ""
 echo "✅ 安装完成！"
-echo "点击菜单栏图标新建文件，或按 ⌥⌘N 快捷键"
+echo "点击菜单栏图标新建文件，或按 ⌃F 快捷键"

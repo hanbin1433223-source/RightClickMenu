@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject private var settings = SettingsManager.shared
     @State private var selectedTab: SettingsTab = .usage
 
     enum SettingsTab: String, CaseIterable, Hashable {
