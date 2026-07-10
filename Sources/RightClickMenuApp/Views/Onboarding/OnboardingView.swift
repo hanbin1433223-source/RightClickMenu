@@ -109,52 +109,40 @@ struct OnboardingView: View {
                 .toggleStyle(.switch)
                 .controlSize(.small)
             }
-            .listStyle(.plain)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .listStyle(.bordered)
         }
         .padding(.horizontal, 28)
     }
 
     private var modeSelectionView: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 10) {
             Text("选择交互方式")
                 .font(.headline)
             Text("可在设置中更改")
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            VStack(spacing: 8) {
-                ForEach(InteractionMode.allCases, id: \.rawValue) { mode in
-                    Button {
-                        interactionMode = mode
-                    } label: {
-                        HStack {
-                            Image(systemName: mode.icon)
-                                .frame(width: 24)
-                                .foregroundStyle(settings.currentAccentColor)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(mode.rawValue)
-                                    .font(.callout.weight(.medium))
-                                Text(mode.description)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            if interactionMode == mode {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(settings.currentAccentColor)
-                            }
-                        }
-                        .padding(12)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(interactionMode == mode ? settings.currentAccentColor : Color.gray.opacity(0.2), lineWidth: 1)
-                        )
+            List(InteractionMode.allCases, id: \.rawValue) { mode in
+                HStack {
+                    Image(systemName: mode.icon)
+                        .foregroundStyle(settings.currentAccentColor)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(mode.rawValue)
+                            .font(.callout.weight(.medium))
+                        Text(mode.description)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
-                    .buttonStyle(.plain)
+                    Spacer()
+                    if interactionMode == mode {
+                        Image(systemName: "checkmark")
+                            .foregroundStyle(settings.currentAccentColor)
+                    }
                 }
+                .contentShape(Rectangle())
+                .onTapGesture { interactionMode = mode }
             }
-            .padding(.horizontal, 8)
+            .listStyle(.bordered)
         }
         .padding(.horizontal, 28)
     }

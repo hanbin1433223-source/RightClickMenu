@@ -49,7 +49,7 @@ struct HotKeyRecorder: View {
         .onChange(of: isRecording) { _, recording in
             if recording {
                 withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
-                    breathingOpacity = 0.4
+                    breathingOpacity = 0.7
                 }
             } else {
                 breathingOpacity = 1.0
