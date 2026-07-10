@@ -71,8 +71,8 @@ struct TypeRow: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(hovering ? settings.currentAccentColor.opacity(0.08) : Color.clear)
         )
-        .scaleEffect(hovering ? 0.98 : 1.0)
-        .animation(.spring(duration: 0.2), value: hovering)
+        .scaleEffect(hovering ? 0.99 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: hovering)
         .onHover { h in
             withAnimation(.easeInOut(duration: 0.15)) { hovering = h }
             if h { NSCursor.pointingHand.push() } else { NSCursor.pop() }

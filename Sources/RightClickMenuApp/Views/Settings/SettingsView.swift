@@ -32,7 +32,8 @@ struct SettingsView: View {
         } detail: {
             detailContent
                 .id(selectedTab)
-                .transition(.opacity)
+                .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                .animation(.easeInOut(duration: 0.2), value: selectedTab)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     LinearGradient(

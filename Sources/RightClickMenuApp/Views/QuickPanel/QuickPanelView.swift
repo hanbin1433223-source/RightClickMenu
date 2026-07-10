@@ -73,11 +73,15 @@ struct QuickPanelView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.top, 10)
                                     .padding(.bottom, 4)
-                                ForEach(group.types) { type in
+                                ForEach(Array(group.types.enumerated()), id: \.offset) { i, type in
                                     TypeRow(
                                         type: type,
                                         onSelect: { FileCreator.create(type.ext) }
                                     )
+                                    if i == group.types.count - 1 {
+                                        Divider().opacity(0)
+                                            .padding(.bottom, 4)
+                                    }
                                 }
                             }
                         }
