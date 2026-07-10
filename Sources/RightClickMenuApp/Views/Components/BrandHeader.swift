@@ -28,7 +28,7 @@ struct BrandHeader: View {
         .padding(.bottom, 10)
         .overlay(
             Rectangle()
-                .fill(Color.gray.opacity(0.12))
+                .fill(Color.gray.opacity(0.06))
                 .frame(height: 1),
             alignment: .bottom
         )

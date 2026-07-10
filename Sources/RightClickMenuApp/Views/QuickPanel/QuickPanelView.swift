@@ -15,10 +15,10 @@ struct QuickPanelView: View {
             BrandHeader()
             if !settings.enabledTypes.isEmpty {
                 searchBar
-                Divider()
+                Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
             }
             typeList
-            Divider()
+            Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
             Text("按 ESC 关闭")
                 .font(.caption)
                 .foregroundStyle(.tertiary)

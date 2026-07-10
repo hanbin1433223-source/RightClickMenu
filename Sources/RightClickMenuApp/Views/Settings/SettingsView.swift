@@ -28,7 +28,7 @@ struct SettingsView: View {
             }
             .listStyle(.sidebar)
             .tint(settings.currentAccentColor)
-            .frame(minWidth: 160)
+            .navigationSplitViewColumnWidth(min: 160, ideal: 180, max: 220)
         } detail: {
             detailContent
                 .id(selectedTab)
@@ -37,7 +37,7 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     LinearGradient(
-                        colors: [.white, Color.gray.opacity(0.03)],
+                        colors: [Color.gray.opacity(0.02), Color.gray.opacity(0.06)],
                         startPoint: .top,
                         endPoint: .bottom
                     )

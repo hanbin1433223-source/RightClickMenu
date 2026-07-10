@@ -15,10 +15,10 @@ struct PopoverView: View {
             BrandHeader()
             if !settings.enabledTypes.isEmpty {
                 searchBar
-                Divider()
+                Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
             }
             typeList
-            Divider()
+            Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
             footer
         }
         .frame(width: 280)
