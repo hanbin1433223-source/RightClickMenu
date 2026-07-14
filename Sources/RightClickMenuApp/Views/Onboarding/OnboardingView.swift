@@ -4,9 +4,8 @@ struct OnboardingView: View {
     @ObservedObject private var settings = SettingsManager.shared
     @State private var step = 1
     @State private var selectedTypeIDs: Set<String> = ["txt", "md", "rtf", "html", "css", "js"]
-    @State private var interactionMode: InteractionMode = .both
 
-    let totalSteps = 4
+    let totalSteps = 3
 
     var body: some View {
         VStack(spacing: 0) {
@@ -36,8 +35,7 @@ struct OnboardingView: View {
         switch step {
         case 1: welcomeView
         case 2: typeSelectionView
-        case 3: modeSelectionView
-        case 4: completionView
+        case 3: completionView
         default: EmptyView()
         }
     }
@@ -116,39 +114,6 @@ struct OnboardingView: View {
         .padding(.horizontal, 28)
     }
 
-    private var modeSelectionView: some View {
-        VStack(spacing: 10) {
-            Text("选择交互方式")
-                .font(.headline)
-            Text("可在设置中更改")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            List(InteractionMode.allCases, id: \.rawValue) { mode in
-                HStack {
-                    Image(systemName: mode.icon)
-                        .foregroundStyle(settings.currentAccentColor)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(mode.rawValue)
-                            .font(.callout.weight(.medium))
-                        Text(mode.description)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    if interactionMode == mode {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(settings.currentAccentColor)
-                    }
-                }
-                .contentShape(Rectangle())
-                .onTapGesture { interactionMode = mode }
-            }
-            .listStyle(.bordered)
-        }
-        .padding(.horizontal, 28)
-    }
-
     private var completionView: some View {
         VStack(spacing: 14) {
             Spacer()
@@ -189,7 +154,6 @@ struct OnboardingView: View {
             } else {
                 Button("开始使用") {
                     settings.completeOnboarding(
-                        mode: interactionMode,
                         typeIDs: Array(selectedTypeIDs)
                     )
                     if let win = NSApp.keyWindow { win.close() }

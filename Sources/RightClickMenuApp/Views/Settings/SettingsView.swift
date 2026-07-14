@@ -3,6 +3,19 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject private var settings = SettingsManager.shared
 
+    private let groupedTypes: [(FileCategory, [FileTypeDef])] = {
+        FileCategory.allCases.compactMap { cat in
+            let types = FileTypeManager.all.filter { $0.category == cat }
+            return types.isEmpty ? nil : (cat, types)
+        }
+    }()
+
+    private let firstCategory: FileCategory? = {
+        FileCategory.allCases.first { cat in
+            !FileTypeManager.all.filter { $0.category == cat }.isEmpty
+        }
+    }()
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -17,9 +30,9 @@ struct SettingsView: View {
     }
 
     private var headerSection: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 14) {
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: 12)
                     .fill(
                         LinearGradient(
                             colors: [settings.currentAccentColor, settings.currentAccentColor.opacity(0.6)],
@@ -27,25 +40,29 @@ struct SettingsView: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .frame(width: 28, height: 28)
+                    .frame(width: 40, height: 40)
                 Image(systemName: "doc.badge.plus")
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(.white)
             }
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(settings.currentAccentColor.opacity(0.2), lineWidth: 1.5)
+            )
             VStack(alignment: .leading, spacing: 2) {
                 Text("即建")
                     .font(.headline)
-                Text("按 \(settings.settings.hotKeyConfig.display) 快速新建文件")
+                Text("在 Finder 右键，即刻新建文件")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             Spacer()
         }
-        .padding(.bottom, 20)
+        .padding(.bottom, 16)
     }
 
     private var hotKeySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             Label("快捷键", systemImage: "keyboard")
                 .font(.callout.weight(.medium))
                 .foregroundStyle(.secondary)
@@ -64,22 +81,19 @@ struct SettingsView: View {
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(.background)
-                .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.04), radius: 4, x: 0, y: 1)
         )
         .padding(.bottom, 16)
     }
 
     private var fileTypesSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             Label("文件类型", systemImage: "doc.on.doc")
                 .font(.callout.weight(.medium))
                 .foregroundStyle(.secondary)
 
-            ForEach(FileCategory.allCases, id: \.self) { category in
-                let types = FileTypeManager.all.filter { $0.category == category }
-                if !types.isEmpty {
-                    categoryGroup(category, types: types)
-                }
+            ForEach(groupedTypes, id: \.0) { category, types in
+                categoryGroup(category, types: types)
             }
         }
         .padding(14)
@@ -87,19 +101,16 @@ struct SettingsView: View {
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(.background)
-                .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.04), radius: 4, x: 0, y: 1)
         )
         .padding(.bottom, 16)
     }
 
     private func categoryGroup(_ category: FileCategory, types: [FileTypeDef]) -> some View {
-        let allNonEmpty = FileCategory.allCases.filter { cat in
-            !FileTypeManager.all.filter { $0.category == cat }.isEmpty
-        }
-        return VStack(alignment: .leading, spacing: 0) {
-            if category != allNonEmpty.first {
-                Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
-                    .padding(.vertical, 4)
+        VStack(alignment: .leading, spacing: 0) {
+            if category != firstCategory {
+                Rectangle().fill(Color.gray.opacity(0.04)).frame(height: 1)
+                    .padding(.vertical, 3)
             }
 
             HStack(spacing: 5) {
@@ -115,10 +126,17 @@ struct SettingsView: View {
 
             ForEach(types) { type in
                 HStack(spacing: 8) {
-                    Image(systemName: type.symbol)
-                        .font(.system(size: 14))
-                        .foregroundStyle(settings.currentAccentColor)
-                        .frame(width: 18, alignment: .center)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(type.brandColor)
+                            .frame(width: 24, height: 24)
+                            .shadow(color: type.brandColor.opacity(0.3), radius: 2, x: 0, y: 1)
+                        Text(type.badgeText)
+                            .font(.system(size: type.ext == "json" || type.ext == "xml" ? 7 : 9, weight: .heavy))
+                            .foregroundStyle(type.ext == "js" ? Color.black : .white)
+                            .lineLimit(1)
+                    }
+                    .frame(width: 24)
                     Text(type.label)
                         .font(.callout)
                         .foregroundStyle(type.isInstalled ? .primary : .secondary)
@@ -138,7 +156,7 @@ struct SettingsView: View {
     }
 
     private var otherSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             Label("其他", systemImage: "ellipsis.circle")
                 .font(.callout.weight(.medium))
                 .foregroundStyle(.secondary)
@@ -161,7 +179,7 @@ struct SettingsView: View {
             }
             .padding(.vertical, 3)
 
-            Rectangle().fill(Color.gray.opacity(0.06)).frame(height: 1)
+            Rectangle().fill(Color.gray.opacity(0.04)).frame(height: 1)
                 .padding(.vertical, 3)
 
             HStack(spacing: 8) {
@@ -187,7 +205,7 @@ struct SettingsView: View {
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(.background)
-                .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.04), radius: 4, x: 0, y: 1)
         )
     }
 }

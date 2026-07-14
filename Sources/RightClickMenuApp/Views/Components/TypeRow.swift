@@ -19,10 +19,17 @@ struct TypeRow: View {
             }
         } label: {
             HStack(spacing: 10) {
-                Image(systemName: type.symbol)
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(settings.currentAccentColor)
-                    .frame(width: 22, alignment: .center)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(type.brandColor)
+                        .frame(width: 24, height: 24)
+                        .shadow(color: type.brandColor.opacity(0.3), radius: 2, x: 0, y: 1)
+                    Text(type.badgeText)
+                        .font(.system(size: type.ext == "json" || type.ext == "xml" ? 7 : 9, weight: .heavy))
+                        .foregroundStyle(type.ext == "js" ? Color.black : .white)
+                        .lineLimit(1)
+                }
+                .frame(width: 24)
                 Text(type.label)
                     .font(.callout)
                     .foregroundStyle(!type.isInstalled ? .secondary : .primary)
@@ -59,7 +66,7 @@ struct TypeRow: View {
         .buttonStyle(.plain)
         .background(
             RoundedRectangle(cornerRadius: 6)
-                .fill(hovering ? Color.gray.opacity(0.08) : Color.clear)
+                .fill(hovering ? Color.gray.opacity(0.06) : Color.clear)
         )
         .onHover { h in
             withAnimation(.easeInOut(duration: 0.15)) { hovering = h }

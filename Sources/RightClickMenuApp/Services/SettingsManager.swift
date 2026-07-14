@@ -94,8 +94,7 @@ final class SettingsManager: ObservableObject {
         }
     }
 
-    func completeOnboarding(mode: InteractionMode, typeIDs: [String]) {
-        settings.interactionMode = mode
+    func completeOnboarding(typeIDs: [String]) {
         settings.enabledTypeIDs = typeIDs
         settings.hasLaunchedBefore = true
         save()

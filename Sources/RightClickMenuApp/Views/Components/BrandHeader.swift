@@ -6,7 +6,7 @@ struct BrandHeader: View {
     var body: some View {
         HStack(spacing: 10) {
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: 8)
                     .fill(
                         LinearGradient(
                             colors: [settings.currentAccentColor, settings.currentAccentColor.opacity(0.6)],
@@ -28,7 +28,7 @@ struct BrandHeader: View {
         .padding(.bottom, 10)
         .overlay(
             Rectangle()
-                .fill(Color.gray.opacity(0.06))
+                .fill(Color.gray.opacity(0.04))
                 .frame(height: 1),
             alignment: .bottom
         )

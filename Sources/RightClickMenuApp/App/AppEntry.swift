@@ -8,5 +8,6 @@ struct RightClickMenuApp: App {
         WindowGroup("即建") {
             SettingsView()
         }
+        .windowResizability(.contentSize)
     }
 }

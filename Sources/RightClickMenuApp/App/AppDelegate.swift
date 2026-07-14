@@ -49,9 +49,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let vc = NSHostingController(rootView: SettingsView())
         let win = NSWindow(contentViewController: vc)
         win.title = "即建"
-        win.styleMask = [.titled, .closable, .miniaturizable, .fullSizeContentView]
+        win.styleMask = [.titled, .closable, .miniaturizable]
         win.setContentSize(NSSize(width: 480, height: 520))
-        win.minSize = NSSize(width: 460, height: 400)
         win.center()
         win.delegate = self
         settingsWindow = win
@@ -129,5 +128,12 @@ extension AppDelegate: NSWindowDelegate {
         if !SettingsManager.shared.settings.hasLaunchedBefore {
             NSApp.terminate(nil)
         }
+    }
+
+    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+        if sender == settingsWindow {
+            return sender.frame.size
+        }
+        return frameSize
     }
 }
